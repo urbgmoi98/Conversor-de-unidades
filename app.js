@@ -50,17 +50,18 @@ const CajaResultado = ({ value, formula }) => (
 );
 
 // ===== HOOK PERSONALIZADO: useConversion =====
-const useConversion = (calcFn) => {
+const useConversion = (calcFn, initialFrom = '', initialTo = '') => {
   const [input, setInput] = useState('');
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
+  const [from, setFrom] = useState(initialFrom);
+  const [to, setTo] = useState(initialTo);
   const [error, setError] = useState(false);
   const [result, setResult] = useState({ value: '', formula: '' });
 
   const convert = useCallback(() => {
     const val = parseFloat(input);
-    if (input.trim() === '' || isNaN(val)) {
-      setError(true);
+    if (input.trim() === '' || isNaN(val) || !from || !to) {
+      setError(input.trim() !== '' && !isNaN(val) && from && to ? false : true);
+      setResult({ value: '', formula: '' });
       return;
     }
     setError(false);
@@ -145,44 +146,44 @@ const calcLength = (val, from, to) => {
 
 // ===== COMPONENTE: ConversorTemperatura =====
 const ConversorTemperatura = () => {
-  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcTemp);
+  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcTemp, 'celsius', 'fahrenheit');
   return (
-    <div className="converter-section active">
+    <>
       <InputValidado label="Cantidad" value={input} onChange={setInput} error={error} placeholder="Ej: 25" />
       <SelectorUnidad label="De" value={from} onChange={setFrom} options={TEMP_OPTIONS} />
       <BotonSwap onClick={swap} />
       <SelectorUnidad label="A" value={to} onChange={setTo} options={TEMP_OPTIONS} />
       <CajaResultado value={result.value} formula={result.formula} />
-    </div>
+    </>
   );
 };
 
 // ===== COMPONENTE: ConversorMoneda =====
 const ConversorMoneda = () => {
-  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcCurrency);
+  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcCurrency, 'usd', 'mxn');
   return (
-    <div className="converter-section active">
+    <>
       <InputValidado label="Cantidad" value={input} onChange={setInput} error={error} placeholder="Ej: 100" />
       <SelectorUnidad label="De" value={from} onChange={setFrom} options={CURRENCY_OPTIONS} />
       <BotonSwap onClick={swap} />
       <SelectorUnidad label="A" value={to} onChange={setTo} options={CURRENCY_OPTIONS} />
       <CajaResultado value={result.value} formula={result.formula} />
       <p className="currency-note">* Tasas aproximadas. Para fines informativos.</p>
-    </div>
+    </>
   );
 };
 
 // ===== COMPONENTE: ConversorLongitud =====
 const ConversorLongitud = () => {
-  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcLength);
+  const { input, setInput, from, setFrom, to, setTo, error, result, swap } = useConversion(calcLength, 'm', 'km');
   return (
-    <div className="converter-section active">
+    <>
       <InputValidado label="Cantidad" value={input} onChange={setInput} error={error} placeholder="Ej: 5" />
       <SelectorUnidad label="De" value={from} onChange={setFrom} options={LENGTH_OPTIONS} />
       <BotonSwap onClick={swap} />
       <SelectorUnidad label="A" value={to} onChange={setTo} options={LENGTH_OPTIONS} />
       <CajaResultado value={result.value} formula={result.formula} />
-    </div>
+    </>
   );
 };
 
@@ -212,7 +213,11 @@ const App = () => {
         ))}
       </div>
       
-      {tabs.find((t) => t.id === activeTab)?.component}
+      {tabs.map((t) => (
+        <div key={t.id} className={`converter-section ${activeTab === t.id ? 'active' : ''}`}>
+          {activeTab === t.id ? t.component : null}
+        </div>
+      ))}
     </div>
   );
 };
