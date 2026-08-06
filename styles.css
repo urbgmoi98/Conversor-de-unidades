@@ -376,9 +376,14 @@ body::after {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
-
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 @media (max-width: 520px) {
   .converter-card {
     padding: 24px;
