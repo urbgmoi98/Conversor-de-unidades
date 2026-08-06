@@ -40,7 +40,14 @@ body::before {
   background: rgba(102, 126, 234, 0.35);
 }
 
-
+body::after {
+  width: 360px;
+  height: 360px;
+  right: -90px;
+  bottom: -90px;
+  background: rgba(118, 75, 162, 0.28);
+  animation-duration: 16s;
+}
 
 .converter-card {
   position: relative;
