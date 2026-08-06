@@ -396,3 +396,12 @@ body::after {
     padding: 10px 4px;
   }
 }
+/* ERROR 7: Selector mal escrito (punto faltante) - afecta el estilo del input */
+converter-input {
+  border: 2px solid red;
+}
+
+/* ERROR 8: Falta cerrar la llave de una regla (sintaxis CSS rota) */
+.result-value {
+  color: #fff
+  font-size: 32px;
