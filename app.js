@@ -1,4 +1,23 @@
+const { useState, useEffect, useCallback } = React;
 
+// ===== COMPONENTE REUTILIZABLE: InputValidado =====
+const InputValidado = ({ label, value, onChange, error, placeholder }) => {
+  return (
+    <div className="input-group">
+      <label className="input-label">{label}</label>
+      <input
+        type="text"
+        className={`converter-input ${error ? 'error' : ''}`}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+      />
+      <div className={`error-msg ${error ? 'show' : ''}`}>
+        Ingresa un número válido
+      </div>
+    </div>
+  );
+};
 // ===== COMPONENTE REUTILIZABLE: SelectorUnidad =====
 const SelectorUnidad = ({ label, value, onChange, options }) => {
   return (
