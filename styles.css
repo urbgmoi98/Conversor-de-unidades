@@ -1,24 +1,4 @@
-:root {
-  color-scheme: dark;
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0f172a 0%, #111827 32%, #1a1a2e 70%, #16213e 100%);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow-x: hidden;
-  position: relative;
-}
 }
 
 body::before,
